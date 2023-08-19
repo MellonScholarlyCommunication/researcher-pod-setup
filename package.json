@@ -18,6 +18,9 @@
   },
   "dependencies": {
     "@inquirer/prompts": "^3.0.2",
+    "@inrupt/solid-client-authn-node": "^1.17.1",
+    "@solid/community-server": "^6.0.1",
+    "@treecg/versionawareldesinldp": "^0.2.2",
     "commander": "^11.0.0",
     "cross-fetch": "^4.0.0"
   }

@@ -1,6 +1,8 @@
 import {Command} from 'commander';
 import {input, password} from '@inquirer/prompts';
 import createSolidPods from './commands/solid-pod-create';
+import {initializeLDESinLDP} from "./ldes/ldes-in-ldp";
+import {createSession} from "./authentication";
 
 export default function getProgram(): Command {
   console.log('getProgram');
@@ -14,6 +16,7 @@ export default function getProgram(): Command {
     .option('-n, --name <string>', 'Name for the newly created Solid account.')
     .option('-e, --email <string>', 'Email address for the user. Default to <uname>@test.edu')
     .option('-p, --password <string>', 'User password. Default to <uname>')
+    .option('-i, --identifier <string>', 'Relative LDES in LDP identifier (without podBase). Default to <podBase>ldesinldp/')
     .action(async (options) => {
       // Get necessary input from user if not provided as options
       if (!options.url) {
@@ -38,10 +41,19 @@ export default function getProgram(): Command {
           options.password = options.name;
         }
       }
+      if (!options.identifier) {
+        options.identifier = await input({message: 'Relative LDES in LDP identifier (without podBase). Default to <podBase>ldesinldp/'});
+        if (!options.identifier) {
+          options.identifier = 'ldesinldp/';
+        }
+      }
 
-      // Make sure the base URL ends with a slash
+      // Make sure the base URL and identifier ends with a slash
       if (!options.url?.endsWith('/')) {
         options.url += '/';
+      }
+      if (!options.identifier?.endsWith('/')) {
+        options.identifier += '/';
       }
 
       // Create the pod
@@ -50,10 +62,20 @@ export default function getProgram(): Command {
         email: options.email,
         password: options.password
       }];
+      let responses;
       try {
-        await createSolidPods(options.url, accountData);
+        responses = await createSolidPods(options.url, accountData);
       } catch (e: any) {
         console.error(`Could not create pod: ${e.message}`);
+        return;
+      }
+
+      // Create authenticated session
+      for (let response of responses) {
+        const session = await createSession(options.url, accountData.filter(account => response.email === account.email)[0]);
+
+        // Set up the LDES in the created pod
+        await initializeLDESinLDP(response.podBaseUrl, options.identifier, session);
       }
     });
 
