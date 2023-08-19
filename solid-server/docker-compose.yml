@@ -3,12 +3,14 @@ version: "3"
 # Services
 services:
   solid:
-    image: solidproject/community-server:edge  # :6.0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: always
     volumes:
       - ./data:/data
-      - ./custom-link-rel.json:/community-server/custom-link-rel.json
-    command: -c /community-server/custom-link-rel.json -f /data
+      - ./custom.json:/community-server/custom.json
+    command: -c /community-server/custom.json -f /data
     ports:
       - "3000:3000"
 

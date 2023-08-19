@@ -1,5 +1,8 @@
 {
-  "@context": "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^6.0.0/components/context.jsonld",
+  "@context": [
+    "https://linkedsoftwaredependencies.org/bundles/npm/@solid/community-server/^6.0.0/components/context.jsonld",
+    "https://linkedsoftwaredependencies.org/bundles/npm/semi-constant-headers-writer-component/^1.0.0/components/context.jsonld"
+  ],
   "import": [
     "css:config/app/init/default.json",
     "css:config/app/main/default.json",
@@ -31,36 +34,28 @@
     "css:config/util/logging/winston.json",
     "css:config/util/representation-conversion/default.json",
     "css:config/util/resource-locker/file.json",
-    "css:config/util/variables/default.json"
+    "css:config/util/variables/default.json",
+
+    "semi-constant-headers-writer:config/semi-constant-headers-writer.json"
   ],
   "@graph": [
     {
       "comment": [
         "A Solid server that stores its resources on disk and uses WAC for authorization.",
         "No setup is required.",
-        "The linkRelMap is overridden to add a new link header needed for the project."
-      ],
-      "@type": "Override",
-      "overrideInstance": {
-        "@id": "urn:solid-server:default:MetadataWriter_LinkRel"
-      },
-      "overrideParameters": {
-        "@type": "LinkRelMetadataWriter",
-        "linkRelMap": [
-          {
-            "LinkRelMetadataWriter:_linkRelMap_key": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
-            "LinkRelMetadataWriter:_linkRelMap_value": "type"
-          },
-          {
-            "LinkRelMetadataWriter:_linkRelMap_key": "http://www.w3.org/ns/ldp#inbox",
-            "LinkRelMetadataWriter:_linkRelMap_value": "http://www.w3.org/ns/ldp#inbox"
-          },
-          {
-            "LinkRelMetadataWriter:_linkRelMap_key": "http://new.org/new#todo",
-            "LinkRelMetadataWriter:_linkRelMap_value": "http://new.org/new#todo"
-          }
-        ]
-      }
+        "The semi-constant-headers-writer-component is used to add a header to the LDES EventStream."
+      ]
+    },
+    {
+      "comment": "Adds several semi constant headers.",
+      "@type": "SemiConstantHeadersWriter",
+      "@id": "urn:semi-constant-headers-writer:default:SemiConstantHeadersWriter",
+      "headers": [
+        {
+          "SemiConstantHeadersWriter:_headers_key": "Link",
+          "SemiConstantHeadersWriter:_headers_value": "<{storageRoot}ldesinldp>; rel=\"https://w3id.org/ldes#EventStream\""
+        }
+      ]
     }
   ]
 }
