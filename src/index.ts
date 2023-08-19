@@ -17,16 +17,31 @@ export default function getProgram(): Command {
     .action(async (options) => {
       // Get necessary input from user if not provided as options
       if (!options.url) {
-        options.url = await input({message: 'URL of the CSS pod hosting service'});
+        while (!options.url) {
+          options.url = await input({message: 'URL of the CSS pod hosting service'});
+        }
       }
       if (!options.name) {
-        options.name = await input({message: 'Name for the newly created Solid account'});
+        while (!options.name) {
+          options.name = await input({message: 'Name for the newly created Solid account'});
+        }
       }
       if (!options.email) {
         options.email = await input({message: 'Email address for the user. Default to <uname>@test.edu'});
+        if (!options.email) {
+          options.email = `${options.name}@test.edu`;
+        }
       }
       if (!options.password) {
         options.password = await password({message: 'User password. Default to <uname>', mask: true});
+        if (!options.password) {
+          options.password = options.name;
+        }
+      }
+
+      // Make sure the base URL ends with a slash
+      if (!options.url?.endsWith('/')) {
+        options.url += '/';
       }
 
       // Create the pod
