@@ -5,7 +5,6 @@ import {initializeLDESinLDP} from "./ldes/ldes-in-ldp";
 import {createSession} from "./authentication";
 
 export default function getProgram(): Command {
-  console.log('getProgram');
   const program = new Command();
 
   program
@@ -77,6 +76,9 @@ export default function getProgram(): Command {
         // Set up the LDES in the created pod
         await initializeLDESinLDP(response.podBaseUrl, options.identifier, session);
       }
+
+      // Force exit to prevent hanging - see https://github.com/MellonScholarlyCommunication/researcher-pod-setup/issues/1
+      process.exit(0);
     });
 
   return program;
