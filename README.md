@@ -1,6 +1,6 @@
 # Researcher Pod Setup
 
-This repository contains a NodeJS script that can be used to setup a researcher pod based on the [Researcher Pod spec for the Mellon project](https://mellonscholarlycommunication.github.io/spec-overview/).
+This repository contains a NodeJS script that can be used to setup a researcher pod based on the [Researcher Pod spec for the Mellon project](https://mellonscholarlycommunication.github.io/spec-datapod/).
 
 First, it will create a new pod for the researcher.
 Then, it will set up a [Linked Data Event Stream](https://semiceu.github.io/LinkedDataEventStreams/) in the created Pod automatically using the [LDES in LDP](https://www.npmjs.com/package/@treecg/versionawareldesinldp) library.
