@@ -13,6 +13,7 @@ First, clone the project and install the dependencies:
 git clone git@github.com:MellonScholarlyCommunication/researcher-pod-setup.git
 cd researcher-pod-setup
 npm install
+npm run build
 ```
 
 Then, make sure you have a Solid server running, exposing the ldes:EventStream the script will create on all the resources as a Link Header.
