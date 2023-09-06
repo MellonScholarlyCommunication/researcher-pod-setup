@@ -1,7 +1,7 @@
 import {Command} from 'commander';
 import {input, password} from '@inquirer/prompts';
 import createSolidPods from './commands/solid-pod-create';
-import {initializeLDESinLDP, makeLdesPubliclyReadable} from "./ldes/ldes-in-ldp";
+import {initializeLDESinLDP, makeLdesPubliclyAccessible} from "./ldes/ldes-in-ldp";
 import {createSession} from "./authentication";
 
 export default function getProgram(): Command {
@@ -77,7 +77,7 @@ export default function getProgram(): Command {
         await initializeLDESinLDP(response.podBaseUrl, options.identifier, session);
 
         // Make the LDES in the created pod public readable
-        await makeLdesPubliclyReadable(response.podBaseUrl + options.identifier, session);
+        await makeLdesPubliclyAccessible(response.podBaseUrl + options.identifier, session);
       }
 
       // Force exit to prevent hanging - see https://github.com/MellonScholarlyCommunication/researcher-pod-setup/issues/1
