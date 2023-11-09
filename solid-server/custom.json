@@ -53,7 +53,7 @@
       "headers": [
         {
           "SemiConstantHeadersWriter:_headers_key": "Link",
-          "SemiConstantHeadersWriter:_headers_value": "<{storageRoot}ldesinldp/>; rel=\"https://w3id.org/ldes#EventStream\""
+          "SemiConstantHeadersWriter:_headers_value": "<{storageRoot}ldesinldp/#EventStream>; rel=\"https://w3id.org/ldes#EventStream\""
         }
       ]
     }
